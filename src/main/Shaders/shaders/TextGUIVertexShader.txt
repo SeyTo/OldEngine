@@ -1,0 +1,20 @@
+#version 400 core
+
+in vec2 position;
+
+out vec2 textureCoord;
+
+uniform mat4 transformationMatrix;
+uniform vec2 sheetCoord;
+
+void main(void){
+    float letterWidth = 0.0625f;
+    float letterHeight = 0.0625f;
+    vec2 wholeSheet;
+
+    gl_Position = transformationMatrix * vec4(position, 0.0, 1.0);
+    wholeSheet = vec2( (position.x + 1.0)/2.0, 1 - ((position.y + 1.0)/2.0));   //(0,0)(0,1)(1,1)(1,0)
+    textureCoord.x = (wholeSheet.x * letterWidth) + (sheetCoord.x * letterWidth);   //see the idea documentation pg.
+    textureCoord.y = (wholeSheet.y * letterHeight) + (sheetCoord.y * letterHeight);
+
+}
